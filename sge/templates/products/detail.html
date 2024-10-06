@@ -1,0 +1,32 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Detalhes do produto {{list.description}}{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes do produto</h3>
+    <div class="card">
+        <div class="card-body" id="detail-product">
+            <div class="detail">
+                <h3 class="display-6">{{object.title}}</h3>
+                <p><strong>Descrição: </strong>{{object.description}}</p>
+                <p><strong>Marca: </strong>{{object.brand}}</p>
+                <p><strong>Categoria: </strong>{{object.Category}}</p>
+                <p><strong>Nª de Serie: </strong>{{object.serial_number}}</p>
+                <p><strong>Quantidade em estoque: </strong>{{object.quantily}}
+                <p><strong>Preço de custo: </strong>R$ {{object.cost_price}}</p>
+                <p><strong>Preço de Venda: </strong>R$ {{object.selling_price}}</p>
+            </div>
+            <div class="imgBox">
+                <h4 class="display-10">Imagem do produto</h4>
+                {% if object.image %}
+                    <img src="{{object.image.url}}" width='200'/>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <a href="{% url "list_product" %}" class="btn btn-secondary mt-3">Voltar para lista de produto</a>
+{% if perms.sge.change_product %}
+    <a href="{% url "update_product" lists.id %}" class="btn btn-warning mt-3">Editar produto</a>
+{% endif %}
+</div>
+
+{% endblock content %}

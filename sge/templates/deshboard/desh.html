@@ -1,0 +1,14 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Deshboard{% endblock title %}
+{% block content %}
+<p class="h3">{{title}}</p>
+
+{% if perms.sge.view_product and perms.sge.view_inflow%}
+    {% include "deshboard/partials/product_metric.html" %}
+    {% include "deshboard/partials/sales_metrics.html" %}
+{% endif %}
+
+{% if perms.sge.view_outflow %}
+    {% include "deshboard/partials/chart_metrics.html" %}
+{% endif %}
+{% endblock  %}

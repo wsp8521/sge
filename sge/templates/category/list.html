@@ -1,0 +1,68 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Categoria{% endblock title %}
+{% block content %}
+{% include "global/components/_menssage.html" %} 
+<p class="h3">Categoria</p>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form action="{% url "list_category" %}"  method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="name" placeholder="Pesquisar categoria" value="{{request.GET.name}}"/>
+
+                    {% if request.GET.name %}
+                        <a href="{% url "list_brand" %}" class="btn btn-primary">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    {% endif %} 
+                </div>
+            </form>
+        </div>
+        {% if perms.sge.add_category %}
+        <div class="col-md-6">
+            <a href="{% url "create_category" %}" class="btn btn-success float-end">
+                <i class="bi bi-plus"></i>Cadastrar
+            </a>
+        </div>
+    {% endif %}
+    </div>
+    <div class="table-responsive">
+    {% if lists %}
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Descrição</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            
+            <tbody> 
+                {% for list in  lists%}
+                    <tr>
+                        <td>{{list.id}}</td>
+                        <td>{{list.name}}</td>
+                        <td>{{list.description}}</td>
+                        <td style="width:8em">
+                            <a href="{% url "detail_category" list.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye-fill"></i></a>
+                        {% if perms.sge.change_category %}
+                            <a href="{% url "update_category" list.id %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil-fill"></i></i></a>
+                        {% endif %}
+                        {% if perms.sge.delete_category %}
+                            <a  onclick="modal(this)" data-page="categoria" data-name="{{list.name}}" data-id="{{list.id}}" href="#" class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></i></a>
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+         <p class="h3">Nenhum registro encontrado.</p>
+        {% endif %}
+    </div>
+    {% include "global/components/_pagination.html" %}
+{% endblock  %}

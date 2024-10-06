@@ -1,0 +1,19 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Detalhes da saída {{list.description}}{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes da saída</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">{{lists.product}}</h3>
+            <p class="card-text"><strong>Descrição da saída: </strong> {{lists.description}}</p>
+            <p class="card-text"><strong>Data da saída: </strong> {{lists.created_at|date:"d/m/Y"}}</p>
+            <p class="card-text"><strong>Quantidade: </strong> {{lists.quantily}}</p>
+        </div>
+    </div>
+    {% if perms.sge.change_inflow %}
+    <a href="{% url "list_outflow" %}" class="btn btn-secondary mt-3">Voltar para lista de saída</a>
+    {% endif %}
+</div>
+
+{% endblock content %}

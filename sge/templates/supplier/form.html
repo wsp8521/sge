@@ -1,0 +1,20 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Fornecedor{% endblock title %}
+{% block content %}
+{% include "global/components/_menssage.html" %} 
+   <div class="container mt-4">
+        <p class="display-6">Cadastrar fornecedor</p>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" class="form">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <a href="{% url "list_supplier" %}" class="btn btn-secondary">Voltar para lista de fornecedores</a>
+                    <button type="submit" class="btn btn-primary">
+                        Salvar registro
+                    </button>
+                </form>
+            </div>
+        </div>
+   </div>
+{% endblock  %}

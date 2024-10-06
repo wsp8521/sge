@@ -1,0 +1,41 @@
+
+<div class="card mt-4">
+    <div class="card-body">
+        <p class="h5">Metricas de produtos</p>
+        <div class="mt-4"></div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Quantidade de produtos</h5>
+                        <h5 class="card-title text-center display-6">{{product_metrics.qtd_product}}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Custo ds produtos</h5>
+                        <h5 class="card-title text-center display-6">{{product_metrics.inventory_cost}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Valor do estoque</h5>
+                        <h5 class="card-title text-center display-6">{{product_metrics.stock_value}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-secondary">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Lucro de estoque</h5>
+                        <h5 class="card-title text-center display-6">{{product_metrics.stock_profit}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

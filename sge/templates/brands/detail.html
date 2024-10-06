@@ -1,0 +1,20 @@
+{% extends "global/base.html" %}~
+{% block title %}SGE - Detalhes da marca {{list.description}}{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes da marca</h3>
+    <div class="card">
+        <div class="card-body" >
+            <h3 class="display-6">{{lists.name}}</h3>
+            <p class="lead">
+                {{lists.description}}
+              </p>
+        </div>
+    </div>
+    <a href="{% url "list_brand" %}" class="btn btn-secondary mt-3">Voltar para lista de marcas</a>
+{% if perms.sge.change_brand %}
+    <a href="{% url "update_brand" lists.id %}" class="btn btn-warning mt-3">Editar marca</a>
+{% endif %}
+</div>
+
+{% endblock content %}

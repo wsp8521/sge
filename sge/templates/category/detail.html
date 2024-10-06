@@ -1,0 +1,20 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Detalhes da categorias {{list.description}}{% endblock title %}
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-6">Detalhes da categoria</h3>
+    <div class="card">
+        <div class="card-body">
+            <h3 class="display-6">{{lists.name}}</h3>
+            <p class="lead">
+                {{lists.description}}
+              </p>
+        </div>
+    </div>
+    <a href="{% url "list_category" %}" class="btn btn-secondary mt-3">Voltar para lista de categoria</a>
+    {% if perms.sge.change_catagory %}
+        <a href="{% url "update_category" lists.id %}" class="btn btn-warning mt-3">Editar categoria</a>
+    {% endif %}
+</div>
+
+{% endblock content %}

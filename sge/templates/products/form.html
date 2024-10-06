@@ -1,0 +1,31 @@
+{% extends "global/base.html" %}
+{% block title %}SGE - Produtos{% endblock title %}
+{% block content %}
+{% include "global/components/_menssage.html" %} 
+
+   <div class="container mt-4">
+        <p class="display-6">Cadastrar produto</p>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" class="form" id="form-product" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                        {{form.as_p}}
+                        <p class="imagem">
+                            {% if object.image %}
+                            <img src="{{object.image.url}}" width='200'/>
+                          {% endif %}
+                        </p>
+                    <span class="botao-container" id="btn">
+                    <a href="{% url "list_product" %}" class="btn btn-secondary ">Voltar para lista de produtos</a>
+                    <button type="submit" class="btn btn-primary ">
+                        Salvar registro
+                    </button>
+                </span>
+                </form>
+            </div>
+        </div>
+   </div>
+{% endblock  %}
+<script>
+
+  </script>
