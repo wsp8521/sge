@@ -3,6 +3,9 @@
 from pathlib import Path
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 
@@ -34,7 +37,9 @@ INSTALLED_APPS = [
     'livereload',
     'rest_framework',
     'rest_framework_simplejwt',
-    'sge'
+    'sge',
+    'sge_api',
+    'chatbot'
 ]
 
 MIDDLEWARE = [
@@ -146,3 +151,6 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
 }
+
+#OPENAI_API_KEY = os.getenv('TOKEN_OPENAI')
+

@@ -1,0 +1,186 @@
+{% extends "global/base_chat.html" %}
+
+{% block styles %}
+<style>
+  body,
+  html {
+    height: 100%;
+  }
+
+  .messages-box {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .messages-list {
+    padding-left: 0;
+  }
+
+  .message {
+    margin-bottom: 15px;
+    list-style: none;
+  }
+
+  .message-text {
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .sent {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+  }
+
+  .received {
+    background-color: #f1f0f0;
+    align-self: flex-start;
+  }
+
+  .message-form {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+  }
+
+  .message-input {
+    flex: 1;
+    border-radius: 0;
+    border-right: none;
+  }
+
+  .btn-send {
+    border-radius: 0;
+  }
+
+  .chat-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="chat-container">
+  <div class="card flex-grow-1">
+    <div class="card-header bg-primary text-white">PyIA</div>
+    <div class="card-header bg-primary text-white"><b>Bem-vindo ao PyIA</b></div>
+    <div class="card-body messages-box">
+
+      <ul class="list-unstyled messages-list">
+
+        {% for chat in chats %}
+          <li class="message sent">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>Você</b>
+              </div>
+              <div class="message-content">
+                {{chat.message}}
+              </div>
+            </div>
+          </li>
+
+          <li class="message received">
+            <div class="message-text">
+              <div class="message-sender">
+                <b>AI Chatbot</b>
+              </div>
+              <div class="markdown-content" id="chat-response">
+                {{chat.response|safe}}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+
+      </ul>
+
+    </div>
+    <br><br>
+    <br><br>
+    <br><br>
+  </div>
+  <form class="message-form" id="form-question">
+    {%csrf_token%}
+    <div class="input-group">
+      <input type="text" class="form-control message-input" placeholder="No que posso ajudar?"  id="question">
+      <div class="input-group-append">
+        <button type="submit" class="btn btn-primary btn-send">Enviar</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<script>
+
+document.getElementById('form-question').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const url = "{% url 'chatbot' %}";
+    const question = document.getElementById('question').value;
+
+    // Adiciona a mensagem do usuário ao chat
+    const messagesList = document.querySelector('.messages-list');
+    const userMessageItem = document.createElement('li');
+    userMessageItem.classList.add('message', 'sent');
+    userMessageItem.innerHTML = `
+        <div class="message-text">
+            <div class="message-sender"><b>Você</b></div>
+            <div class="message-content">${question}</div>
+        </div>`;
+    messagesList.appendChild(userMessageItem);
+
+    // Limpa o campo de input
+    document.getElementById('question').value = '';
+
+    // Cria um placeholder para a resposta do chatbot
+    const botMessageItem = document.createElement('li');
+    botMessageItem.classList.add('message', 'received');
+    botMessageItem.innerHTML = `
+        <div class="message-text">
+            <div class="message-sender"><b>AI Chatbot</b></div>
+            <div class="markdown-content" id="bot-response"></div>
+        </div>`;
+    messagesList.appendChild(botMessageItem);
+
+    const botResponseElement = botMessageItem.querySelector('#bot-response');
+
+    // Envia a mensagem ao backend e processa a resposta em streaming
+    const form_data = new FormData();
+    form_data.append('message', question);
+
+    const response = await fetch(url, {
+        method: 'POST',
+        body: form_data,
+    });
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+
+    // Processa a resposta em streaming
+    let markdownContent = '';
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        // Decodifica o texto recebido
+        const chunk = decoder.decode(value);
+        markdownContent += chunk;
+
+        // Usa marked.js para renderizar o Markdown em HTML
+        botResponseElement.innerHTML = marked.parse(markdownContent);
+
+        // Rola automaticamente para o fim do chat
+        messagesList.scrollTop = messagesList.scrollHeight;
+    }
+});
+
+
+
+
+</script>
+{% endblock %}
