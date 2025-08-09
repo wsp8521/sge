@@ -130,7 +130,11 @@ function chartDoughnut(dataJson){
         options: {
           plugins: {
             legend: { position: 'left',},
-          }
+          },
+          title: {
+            display: true,
+            text: 'Categorias de Produtos'
+        },
       }
 
   })

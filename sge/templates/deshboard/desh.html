@@ -4,7 +4,7 @@
 <p class="h3">{{title}}</p>
 
 {% if perms.sge.view_product and perms.sge.view_inflow%}
-    {% include "deshboard/partials/product_metric.html" %}
+    {% comment %} {% include "deshboard/partials/product_metric.html" %} {% endcomment %}
     {% include "deshboard/partials/sales_metrics.html" %}
 {% endif %}
 
